@@ -1,0 +1,36 @@
+.form {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.search {
+  flex: 5;
+}
+
+.sort {
+  height: 32px !important;
+  flex: 1;
+
+  & *:not(:has(span:first-child), span) {
+    height: 32px !important;
+    min-height: 32px !important;
+  }
+
+  & *:has(span:first-child) {
+    height: 32px !important;
+    min-height: 32px !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+}
+
+.order {
+  /* padding: 8px !important; */
+  height: 32px !important;
+  width: 32px !important;
+
+  & > svg {
+    padding: 8px !important;
+  }
+}
