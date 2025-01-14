@@ -12,8 +12,8 @@ export const Search = observer(() => {
     <UISearch
       className={styles.search}
       placeholder="Поиск по репозиториям Github"
-      value={store.query}
-      onChange={(e) => store.setQuery(e.target.value)}
+      defaultValue={store.query}
+      onChange={(e) => store.setQuery(e.currentTarget.value || "")}
       before={<Icon16SearchOutline />}
     />
   );

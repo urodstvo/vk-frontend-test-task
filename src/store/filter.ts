@@ -1,3 +1,4 @@
+import debounce from "lodash.debounce";
 import { makeAutoObservable } from "mobx";
 export class FilterStore {
   query: string = "";
@@ -6,6 +7,8 @@ export class FilterStore {
 
   constructor() {
     makeAutoObservable(this);
+
+    this.setQuery = debounce(this.setQuery.bind(this), 300);
   }
 
   setQuery(query: string) {
