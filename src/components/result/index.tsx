@@ -1,34 +1,17 @@
 import { observer } from "mobx-react-lite";
-import { useFilterContext } from "@/components/filter";
+
+import { Button, Spinner } from "@vkontakte/vkui";
+
 import { useSearchRepositories } from "@/api";
-import { RepositoryCard } from "../repository-card";
-import { Button, CardGrid, Spinner } from "@vkontakte/vkui";
+import { useFilterContext } from "@/components/filter";
+import { RepositoryCard } from "@/components/repository-card";
 
 import styles from "./result.module.css";
-import { useEffect, useRef, useState } from "react";
+import { InfiniteList } from "@/components/infinite-list";
 
 export const ResultList = observer(() => {
-  const fetchMoreRef = useRef(null);
-  const [inView, setInView] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entities) => {
-        const target = entities[0];
-        setInView(target.isIntersecting);
-      },
-      { threshold: 0.0 }
-    );
-
-    if (fetchMoreRef.current) observer.observe(fetchMoreRef.current);
-  }, []);
-
   const store = useFilterContext();
   const query = useSearchRepositories(store.query, { sort: store.sort, order: store.order });
-
-  useEffect(() => {
-    inView && query.hasNextPage && !query.isError && query.fetchNextPage();
-  }, [inView, query.hasNextPage, query.isError]);
 
   if (store.query.length === 0)
     return (
@@ -39,21 +22,28 @@ export const ResultList = observer(() => {
 
   return (
     <main style={{ paddingTop: 32, paddingBottom: 32 }}>
-      <CardGrid size="l">
-        {!query.isFetching && query.isEmpty && !query.isError && (
-          <div className={styles.center}>Репозитории не найдены</div>
-        )}
-        {!query.isEmpty &&
-          query.list?.filter(Boolean).map((repo) => <RepositoryCard key={repo.id} {...repo} />)}
-      </CardGrid>
-
-      <div className={`${styles.center} ${styles.fetchMore}`} ref={fetchMoreRef}>
-        {query.isError || query.error ? (
-          <Button onClick={() => query.fetchNextPage()}>Загрузить еще</Button>
-        ) : (
-          <Spinner size="m">Загрузка репозиториев, пожалуйста, подождите...</Spinner>
-        )}
-      </div>
+      {!query.isFetching && query.isEmpty && !query.isError && (
+        <div className={styles.center}>Репозитории не найдены</div>
+      )}
+      {!query.isEmpty && query.list && (
+        <InfiniteList
+          height={"calc(100vh - 112px)"}
+          itemHeight={87}
+          gap={16}
+          list={query.list}
+          itemRenderer={(props) => <RepositoryCard key={props.item.id} {...props.item} />}
+          fetchMoreRenderer={({ ref, fn }) => (
+            <div className={`${styles.center} ${styles.fetchMore}`} ref={ref}>
+              {query.isError || query.error ? (
+                <Button onClick={fn}>Загрузить еще</Button>
+              ) : (
+                <Spinner size="m">Загрузка репозиториев, пожалуйста, подождите...</Spinner>
+              )}
+            </div>
+          )}
+          fetchMoreFunction={() => query.fetchNextPage()}
+        />
+      )}
     </main>
   );
 });

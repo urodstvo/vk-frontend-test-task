@@ -14,9 +14,16 @@ import { ResultList } from "@/components/result";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import "@vkontakte/vkui/dist/vkui.css";
+import { InfiniteList } from "./components/infinite-list";
 // import "./index.css";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 2,
+    },
+  },
+});
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -32,6 +39,7 @@ createRoot(document.getElementById("root")!).render(
                       <Filter />
                       <ResultList />
                     </FilterProvider>
+                    {/* <InfiniteList /> */}
                   </Panel>
                 </View>
               </SplitCol>

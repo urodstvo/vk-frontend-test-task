@@ -1,4 +1,4 @@
-import { Card } from "@vkontakte/vkui";
+import { Card, EllipsisText } from "@vkontakte/vkui";
 import { memo } from "react";
 
 import styles from "./repository-card.module.css";
@@ -28,7 +28,9 @@ export const RepositoryCard = memo((props: RepositoryCardProps) => {
           {props.full_name}
         </a>
       </div>
-      <p className={styles.description}>{props.description}</p>
+      <span className={styles.description}>
+        <EllipsisText maxLines={1}>{props.description}</EllipsisText>
+      </span>
       <div className={styles.repoSecondaryInfo}>
         <span>{props.language}</span>
         <span className={styles.stars}>
