@@ -28,7 +28,7 @@ export const ResultList = observer(() => {
       {!query.isEmpty && query.list && (
         <InfiniteList
           height={"calc(100vh - 112px)"}
-          itemHeight={87}
+          itemHeight={100}
           gap={16}
           list={query.list}
           itemRenderer={(props) => <RepositoryCard key={props.item.id} {...props.item} />}

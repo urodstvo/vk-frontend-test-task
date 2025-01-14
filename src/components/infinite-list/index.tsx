@@ -1,4 +1,4 @@
-import { CustomScrollView } from "@vkontakte/vkui";
+import { CustomScrollView, List } from "@vkontakte/vkui";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 type InfiniteListProps<T = any> = {
@@ -92,7 +92,6 @@ export const InfiniteList = <T,>({
 
   return (
     <CustomScrollView
-      as="ul"
       getRootRef={listRef}
       style={{
         position: "relative",
@@ -108,19 +107,17 @@ export const InfiniteList = <T,>({
           position: "relative",
         }}
       >
-        <div
+        <List
+          gap={gap}
           style={{
             position: "absolute",
             top: topIndex * (itemHeight + gap),
             left: 0,
             width: "100%",
-            display: "flex",
-            flexDirection: "column",
-            gap: gap,
           }}
         >
           {visibleItems.map((item, index) => itemRenderer({ item, key: topIndex + index }))}
-        </div>
+        </List>
       </div>
       {fetchMoreRenderer && fetchMoreFunction
         ? fetchMoreRenderer({ ref: fetchMoreRef, fn: fetchMoreFunction })
