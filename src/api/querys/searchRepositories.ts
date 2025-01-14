@@ -1,5 +1,7 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { searchRepositories } from "../requests/searchRepositories";
+import { useEffect } from "react";
+import { toast } from "sonner";
 
 type SearchRepositoriesResponse = Awaited<ReturnType<typeof searchRepositories>>;
 
@@ -22,6 +24,20 @@ export const useSearchRepositories = (
       ),
     staleTime: 60000,
   });
+
+  useEffect(() => {
+    if (q.error && q.isError) {
+      if (q.error.message === "403")
+        toast.error("Превышен лимит запросов.", {
+          description: "Попробуйте подождать минуту и повторить запрос.",
+        });
+
+      if (q.error.message === "429")
+        toast.error("Превышен лимит запросов.", {
+          description: "Попробуйте подождать несколько минут и повторить запрос.",
+        });
+    }
+  }, [q.error, q.isError]);
 
   return {
     list: q.data,
