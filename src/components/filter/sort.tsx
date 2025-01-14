@@ -20,6 +20,7 @@ export const Sort = observer(() => {
       options={sortOptions}
       value={store.sort}
       onChange={(_, v) => store.setSort(v as string)}
+      placeholder="Сортировать по ..."
     />
   );
 });

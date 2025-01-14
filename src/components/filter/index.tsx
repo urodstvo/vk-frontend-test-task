@@ -15,3 +15,5 @@ export const Filter = () => {
     </header>
   );
 };
+
+export { FilterProvider, useFilterContext } from "./context";
