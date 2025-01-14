@@ -9,6 +9,14 @@ const sortOptions = [
     label: "Количество звезд",
     value: "stars",
   },
+  {
+    label: "Дата обновления",
+    value: "updated",
+  },
+  {
+    label: "Количество форков",
+    value: "forks",
+  },
 ];
 
 export const Sort = observer(() => {
@@ -19,7 +27,7 @@ export const Sort = observer(() => {
       className={styles.sort}
       options={sortOptions}
       value={store.sort}
-      onChange={(_, v) => store.setSort(v as string)}
+      onChange={(_, v) => store.setSort(v as "stars" | "updated" | "forks")}
       placeholder="Сортировать по ..."
     />
   );

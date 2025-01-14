@@ -2,8 +2,8 @@ import debounce from "lodash.debounce";
 import { makeAutoObservable } from "mobx";
 export class FilterStore {
   query: string = "";
-  sort: string | null = null;
-  order: string | null = null;
+  sort: "stars" | "updated" | "forks" | null = null;
+  order: "asc" | "desc" = "desc";
 
   constructor() {
     makeAutoObservable(this);
@@ -15,11 +15,11 @@ export class FilterStore {
     this.query = query;
   }
 
-  setSort(sort: string) {
+  setSort(sort: "stars" | "updated" | "forks") {
     this.sort = sort;
   }
 
-  setOrder(order: string) {
+  setOrder(order: "asc" | "desc") {
     this.order = order;
   }
 }

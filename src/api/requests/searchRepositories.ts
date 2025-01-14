@@ -20,7 +20,10 @@ export const searchRepositories = async (
   const params = url.toString();
 
   const response = await fetch(`${API_URL}/search/repositories?q=${query}&${params}`);
-  return response.json() as Promise<SearchRepositoriesResponse>;
+  if (!response.ok) throw new Error(response.status.toString());
+
+  const json = (await response.json()) as Promise<SearchRepositoriesResponse>;
+  return json;
 };
 
 type SearchRepositoriesResponse = {
