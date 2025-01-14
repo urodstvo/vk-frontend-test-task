@@ -3,20 +3,32 @@ import { useFilterContext } from "@/components/filter";
 import { useSearchRepositories } from "@/api";
 import { RepositoryCard } from "../repository-card";
 import { Button, CardGrid, Spinner } from "@vkontakte/vkui";
-import { useInView } from "react-intersection-observer";
 
 import styles from "./result.module.css";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export const ResultList = observer(() => {
-  const { ref, inView } = useInView({ threshold: 0 });
+  const fetchMoreRef = useRef(null);
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entities) => {
+        const target = entities[0];
+        setInView(target.isIntersecting);
+      },
+      { threshold: 0.0 }
+    );
+
+    if (fetchMoreRef.current) observer.observe(fetchMoreRef.current);
+  }, []);
 
   const store = useFilterContext();
   const query = useSearchRepositories(store.query, { sort: store.sort, order: store.order });
 
   useEffect(() => {
-    inView && query.hasNextPage && query.fetchNextPage();
-  }, [inView, query.hasNextPage]);
+    inView && query.hasNextPage && !query.isError && query.fetchNextPage();
+  }, [inView, query.hasNextPage, query.isError]);
 
   if (store.query.length === 0)
     return (
@@ -35,7 +47,7 @@ export const ResultList = observer(() => {
           query.list?.filter(Boolean).map((repo) => <RepositoryCard key={repo.id} {...repo} />)}
       </CardGrid>
 
-      <div className={`${styles.center} ${styles.fetchMore}`} ref={ref}>
+      <div className={`${styles.center} ${styles.fetchMore}`} ref={fetchMoreRef}>
         {query.isError || query.error ? (
           <Button onClick={() => query.fetchNextPage()}>Загрузить еще</Button>
         ) : (
