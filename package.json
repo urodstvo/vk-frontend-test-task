@@ -1,0 +1,19 @@
+{
+  "name": "vk-frontend-test-task",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "/index.ts",
+  "module": "/dist/index.js",
+  "types": "/@types/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "example": "pnpm build && node ./dist/example.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.7.3"
+  }
+}
