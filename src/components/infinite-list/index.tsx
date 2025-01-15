@@ -1,7 +1,7 @@
 import { CustomScrollView, List } from '@vkontakte/vkui';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-type InfiniteListProps<T = unknown> = {
+type InfiniteListProps<T = any> = {
   gap: number;
   height: number | string;
   list: T[];

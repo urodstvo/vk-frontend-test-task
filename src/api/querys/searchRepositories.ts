@@ -12,8 +12,7 @@ export const useSearchRepositories = (query: string, options: { sort: string | n
     queryFn: ({ queryKey, pageParam }) =>
       searchRepositories(queryKey[1] as string, { page: pageParam, per_page: 10, ...options }),
     initialPageParam: 1,
-    getNextPageParam: (lastPage, allPages, lastPageParam) => lastPageParam + 1,
-    getPreviousPageParam: (firstPage, allPages, lastPageParam) => lastPageParam - 1,
+    getNextPageParam: (_lastPage, _allPages, lastPageParam) => lastPageParam + 1,
     enabled: query.length > 0,
     select: (data) =>
       data.pages.reduce((acc, page) => acc.concat(page.items), [] as SearchRepositoriesResponse['items']),
