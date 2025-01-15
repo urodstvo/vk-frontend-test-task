@@ -1,8 +1,8 @@
-import { Order } from "./order";
-import { Search } from "./search";
-import { Sort } from "./sort";
+import { Order } from './order';
+import { Search } from './search';
+import { Sort } from './sort';
 
-import styles from "./filter.module.css";
+import styles from './filter.module.css';
 
 export const Filter = () => {
   return (
@@ -16,4 +16,4 @@ export const Filter = () => {
   );
 };
 
-export { FilterProvider, useFilterContext } from "./context";
+export { FilterProvider, useFilterContext } from './context';

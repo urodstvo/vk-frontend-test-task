@@ -1,11 +1,11 @@
-import { memo } from "react";
-import { Card, EllipsisText } from "@vkontakte/vkui";
-import { Icon16StarAlt } from "@vkontakte/icons";
+import { memo } from 'react';
+import { Card, EllipsisText } from '@vkontakte/vkui';
+import { Icon16StarAlt } from '@vkontakte/icons';
 
-import { EditButton } from "./edit";
-import { DeleteButton } from "./delete";
+import { EditButton } from './edit';
+import { DeleteButton } from './delete';
 
-import styles from "./repository-card.module.css";
+import styles from './repository-card.module.css';
 
 export type RepositoryCardProps = {
   id: number;
@@ -24,14 +24,14 @@ export type RepositoryCardProps = {
 
 export const RepositoryCard = memo((props: RepositoryCardProps) => {
   return (
-    <Card mode="outline">
+    <Card mode='outline'>
       <div className={styles.card}>
         <div className={styles.cardInfo}>
           <div className={styles.repoInfo}>
             <div className={styles.avatarContainer}>
-              <img src={props.owner.avatar_url} alt="avatar" />
+              <img src={props.owner.avatar_url} alt='avatar' />
             </div>
-            <a href={props.html_url} target="_blank" rel="noreferrer">
+            <a href={props.html_url} target='_blank' rel='noreferrer'>
               {props.full_name}
             </a>
           </div>

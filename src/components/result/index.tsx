@@ -1,13 +1,13 @@
-import { observer } from "mobx-react-lite";
+import { observer } from 'mobx-react-lite';
 
-import { Button, Spinner } from "@vkontakte/vkui";
+import { Button, Spinner } from '@vkontakte/vkui';
 
-import { useSearchRepositories } from "@/api";
-import { useFilterContext } from "@/components/filter";
-import { RepositoryCard } from "@/components/repository-card";
+import { useSearchRepositories } from '@/api';
+import { useFilterContext } from '@/components/filter';
+import { RepositoryCard } from '@/components/repository-card';
 
-import styles from "./result.module.css";
-import { InfiniteList } from "@/components/infinite-list";
+import styles from './result.module.css';
+import { InfiniteList } from '@/components/infinite-list';
 
 export const ResultList = observer(() => {
   const store = useFilterContext();
@@ -27,7 +27,7 @@ export const ResultList = observer(() => {
       )}
       {!query.isEmpty && query.list && (
         <InfiniteList
-          height={"calc(100vh - 112px)"}
+          height={'calc(100vh - 112px)'}
           itemHeight={100}
           gap={16}
           list={query.list}
@@ -37,7 +37,7 @@ export const ResultList = observer(() => {
               {query.isError || query.error ? (
                 <Button onClick={fn}>Загрузить еще</Button>
               ) : (
-                <Spinner size="m">Загрузка репозиториев, пожалуйста, подождите...</Spinner>
+                <Spinner size='m'>Загрузка репозиториев, пожалуйста, подождите...</Spinner>
               )}
             </div>
           )}

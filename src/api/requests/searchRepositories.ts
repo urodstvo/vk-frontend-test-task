@@ -1,4 +1,4 @@
-import { API_URL } from "..";
+import { API_URL } from '..';
 
 export const searchRepositories = async (
   query: string,
@@ -7,15 +7,15 @@ export const searchRepositories = async (
     per_page: number | null;
     sort: string | null;
     order: string | null;
-  }
+  },
 ) => {
   const url = new URLSearchParams();
 
   // Add parameters to the query only if they exist
-  if (options && options?.page !== null) url.append("page", options.page.toString());
-  if (options && options?.per_page !== null) url.append("per_page", options.per_page.toString());
-  if (options && options?.sort !== null) url.append("sort", options.sort);
-  if (options && options?.order !== null) url.append("order", options.order);
+  if (options && options?.page !== null) url.append('page', options.page.toString());
+  if (options && options?.per_page !== null) url.append('per_page', options.per_page.toString());
+  if (options && options?.sort !== null) url.append('sort', options.sort);
+  if (options && options?.order !== null) url.append('order', options.order);
 
   const params = url.toString();
 

@@ -1,5 +1,5 @@
-import { RepositoryCardProps } from "@/components/repository-card";
-import { makeAutoObservable } from "mobx";
+import { RepositoryCardProps } from '@/components/repository-card';
+import { makeAutoObservable } from 'mobx';
 
 export class ResultListStore {
   edited: RepositoryCardProps[] = [];

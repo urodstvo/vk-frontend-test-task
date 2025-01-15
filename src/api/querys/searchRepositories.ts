@@ -1,19 +1,14 @@
-import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
-import { searchRepositories } from "../requests/searchRepositories";
-import { useEffect } from "react";
-import { toast } from "sonner";
-import { autorun } from "mobx";
-import { resultListStore } from "@/store/list";
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { searchRepositories } from '../requests/searchRepositories';
+import { useEffect } from 'react';
+import { toast } from 'sonner';
+import { resultListStore } from '@/store/list';
 
 type SearchRepositoriesResponse = Awaited<ReturnType<typeof searchRepositories>>;
 
-export const useSearchRepositories = (
-  query: string,
-  options: { sort: string | null; order: string | null }
-) => {
-  const queryClient = useQueryClient();
+export const useSearchRepositories = (query: string, options: { sort: string | null; order: string | null }) => {
   const q = useInfiniteQuery({
-    queryKey: ["repositories", query, options.order, options.sort],
+    queryKey: ['repositories', query, options.order, options.sort],
     queryFn: ({ queryKey, pageParam }) =>
       searchRepositories(queryKey[1] as string, { page: pageParam, per_page: 10, ...options }),
     initialPageParam: 1,
@@ -21,23 +16,20 @@ export const useSearchRepositories = (
     getPreviousPageParam: (firstPage, allPages, lastPageParam) => lastPageParam - 1,
     enabled: query.length > 0,
     select: (data) =>
-      data.pages.reduce(
-        (acc, page) => acc.concat(page.items),
-        [] as SearchRepositoriesResponse["items"]
-      ),
+      data.pages.reduce((acc, page) => acc.concat(page.items), [] as SearchRepositoriesResponse['items']),
     staleTime: 60000,
   });
 
   useEffect(() => {
     if (q.error && q.isError) {
-      if (q.error.message === "403")
-        toast.error("Превышен лимит запросов.", {
-          description: "Попробуйте подождать минуту и повторить запрос.",
+      if (q.error.message === '403')
+        toast.error('Превышен лимит запросов.', {
+          description: 'Попробуйте подождать минуту и повторить запрос.',
         });
 
-      if (q.error.message === "429")
-        toast.error("Превышен лимит запросов.", {
-          description: "Попробуйте подождать несколько минут и повторить запрос.",
+      if (q.error.message === '429')
+        toast.error('Превышен лимит запросов.', {
+          description: 'Попробуйте подождать несколько минут и повторить запрос.',
         });
     }
   }, [q.error, q.isError]);
