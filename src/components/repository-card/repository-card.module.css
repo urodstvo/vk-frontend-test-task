@@ -1,5 +1,7 @@
 .card {
   padding: 8px 16px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .repoInfo {
@@ -30,8 +32,6 @@
 .description {
   font-size: 14px;
   line-height: 18px;
-  display: flex;
-  margin: 8px 0;
 
   &:empty {
     height: 18px;
@@ -54,4 +54,38 @@
   display: flex;
   justify-content: center;
   gap: 4px;
+}
+
+.cardInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 90%;
+}
+
+.cardActions {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 4px;
+  flex: 1;
+
+  & > button {
+    width: 32px;
+    height: 32px;
+  }
+
+  & svg {
+    padding: 8px !important;
+    width: 32px;
+    height: 32px;
+  }
+}
+
+.modalForm {
+  margin-top: 16px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }

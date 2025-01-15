@@ -1,7 +1,9 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import { searchRepositories } from "../requests/searchRepositories";
 import { useEffect } from "react";
 import { toast } from "sonner";
+import { autorun } from "mobx";
+import { resultListStore } from "@/store/list";
 
 type SearchRepositoriesResponse = Awaited<ReturnType<typeof searchRepositories>>;
 
@@ -9,6 +11,7 @@ export const useSearchRepositories = (
   query: string,
   options: { sort: string | null; order: string | null }
 ) => {
+  const queryClient = useQueryClient();
   const q = useInfiniteQuery({
     queryKey: ["repositories", query, options.order, options.sort],
     queryFn: ({ queryKey, pageParam }) =>
@@ -39,8 +42,15 @@ export const useSearchRepositories = (
     }
   }, [q.error, q.isError]);
 
+  const changedData = q.data
+    ?.filter((item) => !resultListStore.deletedIds.has(item.id))
+    .map((item) => {
+      const editedItem = resultListStore.edited.find((i) => i.id === item.id);
+      return editedItem ?? item;
+    });
+
   return {
-    list: q.data,
+    list: changedData,
     error: q.error,
     hasNextPage: q.hasNextPage,
     isFetching: q.isFetching || q.isFetchingNextPage || q.isRefetching,
