@@ -1,7 +1,0 @@
-.header {
-  display: flex;
-}
-
-:root {
-  --vkui_internal--panel_header_height: 60px !important;
-}
